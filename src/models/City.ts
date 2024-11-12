@@ -8,9 +8,9 @@ export class City{
     slug:string;
     parkingsIds:number[]=[];
     country:string;
-    location:GPS;
+    location:string;
 
-    constructor(i:number,n:string,c:string,l:GPS){
+    constructor(i:number,n:string,c:string,l:string){
         this.name=n;
         this.slug=toSlug(n);
         this.country=c;

@@ -3,24 +3,16 @@ import { html } from 'hono/html';
 import { serveStatic } from "hono/bun";
 import HomeController from "./controllers/HomeController";
 import { cities, parkings } from "./data/staticDatabase";
-import ReadAllCitiesController from './controllers/city/ReadAllCitiesController';
 import { createFactory } from 'hono/factory';
 import { HTTPException } from 'hono/http-exception';
 import {trimTrailingSlash} from "hono/trailing-slash";
-import ReadOneCityController from './controllers/city/ReadOneCityController';
-import ReadAllParkingsController from './controllers/parking/ReadAllParkingsController';
-import ReadOneParkingController from './controllers/parking/ReadOneParkingController';
-
+import db from './bdd/database';
 
 const app = new Hono();
 app.use(trimTrailingSlash());
 
 app.get("/",...HomeController);
 app.use("/static/*",serveStatic({root:"./"}));
-app.get("/cities",...ReadAllCitiesController);
-app.get("/cities/:slug",...ReadOneCityController);
-app.get("/parkings",...ReadAllParkingsController);
-app.get("/parkings/:id",...ReadOneParkingController)
 
 app.notFound((c) => {
     return c.html(html`

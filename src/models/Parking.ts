@@ -8,7 +8,7 @@ export class Parking{
     id:number;
     name:string;
     city_id:number;
-    location:GPS;
+    location:string;
     numberOfSpots:number;
     opened:boolean=true;
     hourlyRate?:number;
