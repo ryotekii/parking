@@ -13,38 +13,42 @@ datasource db {
   url      = "file:../parking.sqlite"
 }
 
-model City {
+model cityEntity {
   id        Int       @id @default(autoincrement())
   name      String
   slug      String  @unique
   location  String
   country   String
-  parkings  Parking[]
+  parkings  parkingEntity[]
+
+  @@map("cities")
 }
 
-model Parking {
+model parkingEntity {
   id            Int       @id @default(autoincrement())
   name          String
   cityId        Int
   location      String
   numberOfSpots Int
-  hourlyRate    Float?
-  city          City      @relation(fields: [cityId], references: [id])
-  spots         Spot[]
-  opened        Boolean?
+  hourlyRate    Float
+  city          cityEntity      @relation(fields: [cityId], references: [id])
+  spots         spotEntity[]
+  opened        Boolean
+
+  @@map("parkings")
 }
 
-model Spot {
+model spotEntity {
   id         Int      @id @default(autoincrement())
   parkingId  Int
-  parking    Parking @relation(fields: [parkingId], references: [id])
-  parks      Park[]
+  parking    parkingEntity @relation(fields: [parkingId], references: [id])
+  parks      parkEntity[]
 }
 
-model Park {
+model parkEntity {
   id         Int      @id @default(autoincrement())
   spotId     Int
-  spot       Spot     @relation(fields: [spotId], references: [id])
+  spot       spotEntity     @relation(fields: [spotId], references: [id])
   startedAt  DateTime?
   endedAt    DateTime?
   price      Float

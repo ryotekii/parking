@@ -1,16 +1,20 @@
 import ReadAllParkingsView from '../../views/parking/ReadAllParkingsView';
-import { Parking } from '@prisma/client';
+import { parkingEntity } from '@prisma/client';
 import { ParkingDTO } from '../../DTO/ParkingDTO';
-import prisma from '../../../prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { createFactory } from 'hono/factory';
+import { Parking } from '../../models/Parking';
 
-import factory from '../factory';
+const factory = createFactory();
+const prisma = new PrismaClient();
 
 const ReadAllParkingsController = factory.createHandlers(async (c) => {
 
     try {
-        const parkings:Parking[] = await prisma.parking.findMany();
-        const parkingsDTO = parkings.map(parking => new ParkingDTO(parking));
-        return c.html(ReadAllParkingsView({ parkings:parkingsDTO }));
+        const parkingsEntities:parkingEntity[] = await prisma.parkingEntity.findMany();
+        const parkings = parkingsEntities.map(parking => Parking.fromEntity(parking));
+        const parkingsDTOs = parkings.map(pk => ParkingDTO.fromDomain(pk))
+        return c.html(ReadAllParkingsView({ parkings:parkingsDTOs }));
     
     } catch (error) {
         console.error("Erreur lors de la récupération des villes :", error);

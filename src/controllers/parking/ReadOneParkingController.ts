@@ -1,23 +1,26 @@
-import { Parking } from '@prisma/client';
 import ReadOneParkingView from '../../views/parking/ReadOneParkingView';
 import { ParkingDTO } from '../../DTO/ParkingDTO';
-import prisma from '../../../prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { createFactory } from 'hono/factory';
+import { Parking } from '../../models/Parking';
 
-import factory from '../factory';
+const factory = createFactory();
+const prisma = new PrismaClient();
 
 const ReadOneParkingController = factory.createHandlers(async (c) => {
     const id = Number(c.req.param('id'));
     
     try {
-        const parking = await prisma.parking.findUnique({
+        const parkingE = await prisma.parkingEntity.findUnique({
             where: { id: id }
         });
 
-        if (!parking){
+        if (!parkingE){
             return c.notFound();
         }
 
-        const parkingDTO = new ParkingDTO(parking);
+        const parking = Parking.fromEntity(parkingE);
+        const parkingDTO = ParkingDTO.fromDomain(parking);
         return c.html(ReadOneParkingView({parking:parkingDTO}));
         
     } catch (error) {

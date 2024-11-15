@@ -1,17 +1,30 @@
-import { City } from "@prisma/client";
-export class CityDTO{
-    id:number;
-    name:string;
-    slug:string;
-    parkingsIds:number[];
-    country:string;
-    location: string;
-    constructor(city: City, parkingsIds: number[]) {
-        this.id = city.id;
-        this.name = city.name;
-        this.slug = city.slug;
-        this.parkingsIds = parkingsIds;
-        this.country = city.country;
-        this.location = city.location;
+import { City } from '../models/City';
+import { Parking } from '../models/Parking';
+
+export class CityDTO {
+  id: number;
+  name: string;
+  country: string;
+  location: string;
+  parkingsIds: number[]=[];
+
+  constructor(id: number, name: string, country: string, location: string, parkingsIds?: number[]) {
+    this.id = id;
+    this.name = name;
+    this.country = country;
+    this.location = location;
+    if(parkingsIds){
+      this.parkingsIds = parkingsIds;
     }
+  }
+
+  static fromDomain(city: City,parkingsIds?:number[]): CityDTO {
+    return new CityDTO(
+      city.id,
+      city.name,
+      city.country,
+      city.location,
+      parkingsIds,
+    );
+  }
 }

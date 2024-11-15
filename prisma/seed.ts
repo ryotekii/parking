@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 async function main() {
-    await prisma.city.createMany({
+    await prisma.cityEntity.createMany({
     data: [
       { id:1, name: 'Aix-en-Provence', slug: 'aix-en-provence', country: 'France', location: "{ latitude: 43.533329, longitude: 5.43333 }" },
       { id:2, name: 'La Spezia', slug: 'la-spezia', country: 'Italie', location: "{ latitude: 44.238366, longitude: 9.6912326 }" },
@@ -14,7 +14,7 @@ async function main() {
   });
 
 
-  await prisma.parking.createMany({
+  await prisma.parkingEntity.createMany({
     data: [
       { name: 'Parking A', cityId: 1, location: "{ latitude: 43.533329, longitude: 5.43333 }", numberOfSpots: 100, opened: true, hourlyRate: 4.5 },
       { name: 'Parking B', cityId: 2, location: "{ latitude: 44.238366, longitude: 9.6912326 }", numberOfSpots: 50, opened: true, hourlyRate: 3.0 },

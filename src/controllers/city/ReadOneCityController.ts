@@ -1,9 +1,12 @@
 import ReadOneCityView from '../../views/city/ReadOneCityView';
-import { Parking,City } from '@prisma/client';
+import { Parking } from '../../models/Parking';
+import { City } from '../../models/City';
 import { CityDTO } from '../../DTO/CityDTO';
-import prisma from '../../../prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { createFactory } from 'hono/factory';
 
-import factory from '../factory';
+const factory = createFactory();
+const prisma = new PrismaClient();
 
 const ReadOneCityController = factory.createHandlers(async (c) => {
     const slug = c.req.param('slug');
@@ -11,19 +14,20 @@ const ReadOneCityController = factory.createHandlers(async (c) => {
     type CityWithParkings = City & { parkings: Parking[] };
     
     try {
-        const city = await prisma.city.findUnique({
+        const cityE = await prisma.cityEntity.findUnique({
             where: { slug: slug },
             include: { parkings: true }
         });
 
-        if (!city) {
+        if (!cityE) {
             return c.notFound();
         }
 
-        const parkingsIds = city.parkings.map(parking => parking.id);
-        const parkings = city.parkings;
-        const cityDTO = new CityDTO(city, parkingsIds);
-
+        const parkingsIds = cityE.parkings.map(parking => parking.id);
+        const parkings = cityE.parkings;
+        const city = City.fromEntity(cityE);
+        const cityDTO = CityDTO.fromDomain(city,parkingsIds);
+        console.log(parkingsIds);
         return c.html(ReadOneCityView({ city:cityDTO,parkings }));
         
     } catch (error) {

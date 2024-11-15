@@ -3,18 +3,19 @@ import {Spot} from "./Spot";
 import {Park} from "./Park";
 import {City} from "./City";
 import { generateRandomNumberId } from "../utils/generateRandomNumberId.js";
+import { parkingEntity } from "@prisma/client";
 
 export class Parking{
     id:number;
     name:string;
-    city_id:number;
+    cityId:number;
     location:string;
     numberOfSpots:number;
     opened:boolean=true;
-    hourlyRate?:number;
+    hourlyRate:number;
     parksIds:number[]=[];
 
-    constructor(n:string,nos:number,hr:number,c:City,id?:number){
+    constructor(n:string,nos:number,hr:number,c:number,l:string,id?:number){
         if (id){
             this.id=id;
         } else {
@@ -28,11 +29,9 @@ export class Parking{
                 this.parksIds.push(Spot.id);
             }
         }
-        if (hr>0){
-            this.hourlyRate=hr;
-        }
-        this.city_id=c.id;
-        this.location=c.location;
+        this.hourlyRate=hr;
+        this.cityId=c;
+        this.location=l;
         this.numberOfSpots=nos;
     }
 
@@ -40,5 +39,16 @@ export class Parking{
         if (this.parksIds.includes(park.id)){
             this.parksIds.push();
         }
+    }
+
+    static fromEntity(parking:parkingEntity){
+        return new Parking(
+            parking.name,
+            parking.numberOfSpots,
+            parking.hourlyRate,
+            parking.cityId,
+            parking.location,
+            parking.id,
+        );
     }
 }
