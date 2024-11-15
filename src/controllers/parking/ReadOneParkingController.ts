@@ -1,23 +1,27 @@
-import { createFactory } from 'hono/factory';
+import { Parking } from '@prisma/client';
 import ReadOneParkingView from '../../views/parking/ReadOneParkingView';
-import { Parking } from '../../models/Parking';
-import db from '../../bdd/database';
+import { ParkingDTO } from '../../DTO/ParkingDTO';
+import prisma from '../../../prisma/client';
 
-const factory = createFactory();
+import factory from '../factory';
 
 const ReadOneParkingController = factory.createHandlers(async (c) => {
-    try{
-        const id = c.req.param('id');
-        const parking = /*parkings.find((parking) => parking.id.toString() === id);*/ db.prepare('SELECT * FROM parkings WHERE id=?').get(id) as Parking;
+    const id = Number(c.req.param('id'));
+    
+    try {
+        const parking = await prisma.parking.findUnique({
+            where: { id: id }
+        });
 
-        if (!parking) {
+        if (!parking){
             return c.notFound();
         }
 
-        const name = parking.name;
-
-        return c.html(ReadOneParkingView({ parking,name }));
-    } catch(error){
+        const parkingDTO = new ParkingDTO(parking);
+        return c.html(ReadOneParkingView({parking:parkingDTO}));
+        
+    } catch (error) {
+        console.error("Erreur lors de la récupération de la ville :", error);
         return c.text("Erreur interne du serveur", 500);
     }
 });

@@ -1,23 +1,23 @@
-import {City} from "../../models/City";
 import {Layout} from "../shared/Layout";
-import { parkings } from "../../data/staticDatabase";
+import { CityDTO } from "../../DTO/CityDTO";
+import { Parking } from "@prisma/client";
 
 type ReadOneCityViewProps = {
-    city: City;
-    name:String
+    city: CityDTO;
+    parkings: Parking[]
 }
 
 
 
 const ReadOneCityView =
-({ city }: ReadOneCityViewProps) =>
+({ city,parkings }: ReadOneCityViewProps) =>
 
 <Layout pageTitle={city.name}>
     <div>
-        <p>Ville n°{city.id}, {city.country} ({city.location.latitude},{city.location.longitude}) : {city.parkingsIds.length} parkings</p>
+        <p>Ville n°{city.id}, {city.country} ({city.location}) : {city.parkingsIds.length} parkings</p>
         <h2>Parkings disponibles :</h2>
         <ul>
-            {parkings.filter(parking => parking.city_id === city.id).map((parking) => (
+            {parkings.filter(parking => parking.cityId === city.id).map((parking) => (
                 <li key={parking.id}>
                     <a href={`/parkings/${parking.id}`}>{parking.name}</a>, {parking.hourlyRate}€/h
                 </li>

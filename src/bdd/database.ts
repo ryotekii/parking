@@ -40,14 +40,14 @@ db.exec(`CREATE TABLE IF NOT EXISTS "cities" (
     FOREIGN KEY("parking_id") REFERENCES "parkings"("id")
     );
 
-    INSERT INTO cities (id, name, location, country) VALUES
+    INSERT OR REPLACCE INTO cities (id, name, location, country) VALUES
     (1, "Aix-en-Provence", 'latitude :43.533323, longitude :5.43333', "France"),
     (2, "La Spezia", 'latitude : 44.238366, longitude : 9.6912326', "Italie"),
     (3, "Aix-la-Chapelle", 'latitude : 50.776351, longitude : 6.083862', "Allemagne"),
     (4, "San Cristobal de La Laguna", 'latitude : 28.487180709838867, longitude : -16.313879013061523', "Espagne"),
     (5, "Newcastle upon Tyne", 'latitude : 54.9738474, longitude : -1.6131572', "Angleterre");
 
-    INSERT INTO parkings (name, numberOfPlaces, hourlyRate, city_id) VALUES
+    INSERT OR REPLACE INTO parkings (name, numberOfPlaces, hourlyRate, city_id) VALUES
     ("A", 100, 4.5, 1),
     ("B", 50, 3, 2),
     ("C", 80, 2.5, 2),

@@ -5,6 +5,7 @@
     "dev": "bun run --watch src/index.ts"
   },
   "dependencies": {
+    "@prisma/client": "^5.22.0",
     "hono": "^4.6.3"
   },
   "devDependencies": {
