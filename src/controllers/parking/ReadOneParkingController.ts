@@ -1,5 +1,4 @@
 import ReadOneParkingView from '../../views/parking/ReadOneParkingView';
-import { ParkingDTO } from '../../DTO/ParkingDTO';
 import { PrismaClient } from '@prisma/client';
 import { createFactory } from 'hono/factory';
 import { Parking } from '../../models/Parking';
@@ -20,8 +19,7 @@ const ReadOneParkingController = factory.createHandlers(async (c) => {
         }
 
         const parking = Parking.fromEntity(parkingE);
-        const parkingDTO = ParkingDTO.fromDomain(parking);
-        return c.html(ReadOneParkingView({parking:parkingDTO}));
+        return c.html(ReadOneParkingView({parking:parking}));
         
     } catch (error) {
         console.error("Erreur lors de la récupération de la ville :", error);

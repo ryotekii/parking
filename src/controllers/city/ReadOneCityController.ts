@@ -1,7 +1,6 @@
 import ReadOneCityView from '../../views/city/ReadOneCityView';
 import { Parking } from '../../models/Parking';
 import { City } from '../../models/City';
-import { CityDTO } from '../../DTO/CityDTO';
 import { PrismaClient } from '@prisma/client';
 import { createFactory } from 'hono/factory';
 
@@ -23,12 +22,12 @@ const ReadOneCityController = factory.createHandlers(async (c) => {
             return c.notFound();
         }
 
-        const parkingsIds = cityE.parkings.map(parking => parking.id);
-        const parkings = cityE.parkings;
+
         const city = City.fromEntity(cityE);
-        const cityDTO = CityDTO.fromDomain(city,parkingsIds);
-        console.log(parkingsIds);
-        return c.html(ReadOneCityView({ city:cityDTO,parkings }));
+        cityE.parkings.map(parking => city.add(Parking.fromEntity(parking)));
+        const parkings = cityE.parkings.map(parking=>Parking.fromEntity(parking));
+        console.log(parkings);
+        return c.html(ReadOneCityView({ city:city,parkings }));
         
     } catch (error) {
         console.error("Erreur lors de la récupération de la ville :", error);

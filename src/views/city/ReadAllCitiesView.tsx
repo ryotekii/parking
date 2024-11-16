@@ -1,8 +1,8 @@
-import { CityDTO } from "../../DTO/CityDTO";
+import { City } from "../../models/City";
 import { Layout } from "../shared/Layout";
 
 type ReadAllCitiesViewProps = {
-    cities: Array<CityDTO>;
+    cities: Array<City>;
 }
 
 const ReadAllCitiesView = ({ cities }: ReadAllCitiesViewProps) => (

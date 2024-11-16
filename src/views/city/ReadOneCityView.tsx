@@ -1,9 +1,9 @@
 import {Layout} from "../shared/Layout";
-import { CityDTO } from "../../DTO/CityDTO";
-import { Parking } from "@prisma/client";
+import { City } from "../../models/City";
+import { Parking } from "../../models/Parking";
 
 type ReadOneCityViewProps = {
-    city: CityDTO;
+    city: City;
     parkings: Parking[]
 }
 
