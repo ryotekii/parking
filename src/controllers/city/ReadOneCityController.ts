@@ -1,6 +1,6 @@
 import ReadOneCityView from '../../views/city/ReadOneCityView';
-import { Parking } from '../../models/Parking';
-import { City } from '../../models/City';
+import Parking from '../../models/Parking';
+import City from '../../models/City';
 import { PrismaClient } from '@prisma/client';
 import { createFactory } from 'hono/factory';
 

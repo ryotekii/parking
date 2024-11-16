@@ -2,17 +2,17 @@ import { Hono } from 'hono';
 import { html } from 'hono/html';
 import { serveStatic } from "hono/bun";
 import HomeController from "./controllers/HomeController";
-import { cities, parkings } from "./data/staticDatabase";
-import { createFactory } from 'hono/factory';
-import { HTTPException } from 'hono/http-exception';
 import {trimTrailingSlash} from "hono/trailing-slash";
-import db from './bdd/database';
+import cityRoutes from "./routes/cityRoutes";
+import parkingRoutes from "./routes/parkingRoutes"
 
 const app = new Hono();
 app.use(trimTrailingSlash());
 
 app.get("/",...HomeController);
 app.use("/static/*",serveStatic({root:"./"}));
+app.route("/cities",cityRoutes)
+app.route("/parkings",parkingRoutes)
 
 app.notFound((c) => {
     return c.html(html`
@@ -51,6 +51,5 @@ app.onError((err, c) => {
         </html>
     `);
 });
-
 
 export default app;

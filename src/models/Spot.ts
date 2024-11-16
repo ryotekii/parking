@@ -1,4 +1,4 @@
-export class Spot{
+export default class Spot{
     static id:number=1;
     parking_id:number;
 

@@ -1,6 +1,6 @@
 import {Layout} from "../shared/Layout";
-import { City } from "../../models/City";
-import { Parking } from "../../models/Parking";
+import City from "../../models/City";
+import Parking from "../../models/Parking";
 
 type ReadOneCityViewProps = {
     city: City;

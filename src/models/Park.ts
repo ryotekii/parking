@@ -1,6 +1,6 @@
 import { generateRandomNumberId } from "../utils/generateRandomNumberId";
 
-export class Park{
+export default class Park{
     id:number;
     spot_id:number;
     startedAt?:Date;

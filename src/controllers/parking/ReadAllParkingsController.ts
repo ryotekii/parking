@@ -2,7 +2,7 @@ import ReadAllParkingsView from '../../views/parking/ReadAllParkingsView';
 import { parkingEntity } from '@prisma/client';
 import { PrismaClient } from '@prisma/client';
 import { createFactory } from 'hono/factory';
-import { Parking } from '../../models/Parking';
+import Parking from '../../models/Parking';
 
 const factory = createFactory();
 const prisma = new PrismaClient();

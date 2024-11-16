@@ -1,5 +1,5 @@
 import ReadAllCitiesView from '../../views/city/ReadAllCitiesView';
-import { City } from '../../models/City';
+import City from '../../models/City';
 import { PrismaClient } from '@prisma/client';
 import { cityEntity } from '@prisma/client';
 import { createFactory } from 'hono/factory';

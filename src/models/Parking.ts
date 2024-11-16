@@ -1,11 +1,11 @@
 import type {GPS} from "./GPS.ts";
-import {Spot} from "./Spot";
-import {Park} from "./Park";
-import {City} from "./City";
+import Spot from "./Spot";
+import Park from "./Park";
+import City from "./City";
 import { generateRandomNumberId } from "../utils/generateRandomNumberId.js";
 import { parkingEntity } from "@prisma/client";
 
-export class Parking{
+export default class Parking{
     id:number;
     name:string;
     cityId:number;

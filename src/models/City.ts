@@ -1,9 +1,9 @@
-import {Parking} from "./Parking";
+import Parking from "./Parking";
 import type {GPS} from "./GPS.ts";
 import {toSlug} from "../utils/toSlug"
 import { cityEntity } from "@prisma/client";
 
-export class City{
+export default class City{
     id:number;
     name:string;
     slug:string;

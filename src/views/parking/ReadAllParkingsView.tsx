@@ -1,4 +1,4 @@
-import { Parking } from "../../models/Parking";
+import Parking from "../../models/Parking";
 import {Layout} from "../shared/Layout"
 
 

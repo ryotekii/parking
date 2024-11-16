@@ -1,9 +1,10 @@
-import {Hono} from "hono";
-import {html,raw} from "hono/html";
-import { cities, parkings } from "../data/staticDatabase";
-import app from "../index";
+import { Hono } from "hono";
 import ReadAllCitiesController from "../controllers/city/ReadAllCitiesController";
 import ReadOneCityController from "../controllers/city/ReadOneCityController";
 
-app.get("/cities",...ReadAllCitiesController);
-app.get("/cities/:slug",...ReadOneCityController);
+const route=new Hono();
+
+route.get("/cities",...ReadAllCitiesController);
+route.get("/cities/:slug",...ReadOneCityController);
+
+export default route;
