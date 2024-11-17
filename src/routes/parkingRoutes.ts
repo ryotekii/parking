@@ -1,8 +1,10 @@
-import {Hono} from "hono";
-import {html,raw} from "hono/html";
-import { parkings } from "../data/staticDatabase";
-import app from "../index";
+import { Hono } from "hono";
+import ReadOneParkingController from "../controllers/parking/ReadOneParkingController";
+import ReadAllParkingsController from "../controllers/parking/ReadAllParkingsController";
 
-/*app.get("/parkings",(c)=>{
-    return c.json(parkings);
-})*/
+const route=new Hono();
+
+route.get("/",...ReadAllParkingsController);
+route.get("/:id",...ReadOneParkingController);
+
+export default route;

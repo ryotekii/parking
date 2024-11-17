@@ -1,9 +1,9 @@
-import {Parking} from "../../models/Parking";
+import Parking from "../../models/Parking";
 import {Layout} from "../shared/Layout"
 
 
 type ReadAllParkingsViewProps = {
-    parkings: Array<Parking>; //parkings
+    parkings: Array<Parking>;
 }
 
 const ReadAllCitiesView =

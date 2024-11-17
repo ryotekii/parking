@@ -1,16 +1,23 @@
-import { Hono } from 'hono';
-import {html} from "hono/html";
-import { createFactory } from 'hono/factory';
 import ReadAllParkingsView from '../../views/parking/ReadAllParkingsView';
-import {parkings} from "../../data/staticDatabase"
+import { parkingEntity } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
+import { createFactory } from 'hono/factory';
+import Parking from '../../models/Parking';
 
 const factory = createFactory();
+const prisma = new PrismaClient();
 
-const ReadAllParkingsController = factory.createHandlers(async (c)=>{
+const ReadAllParkingsController = factory.createHandlers(async (c) => {
 
-    return c.html(ReadAllParkingsView({ parkings }));
-
+    try {
+        const parkingsEntities:parkingEntity[] = await prisma.parkingEntity.findMany();
+        const parkings = parkingsEntities.map(parking => Parking.fromEntity(parking));
+        return c.html(ReadAllParkingsView({ parkings:parkings }));
+    
+    } catch (error) {
+        console.error("Erreur lors de la récupération des villes :", error);
+        return c.text("Erreur serveur", 500);
+    }
 });
 
 export default ReadAllParkingsController;
-

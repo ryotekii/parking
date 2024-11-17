@@ -1,0 +1,56 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../parking.sqlite"
+}
+
+model cityEntity {
+  id        Int       @id @default(autoincrement())
+  name      String
+  slug      String  @unique
+  location  String
+  country   String
+  parkings  parkingEntity[]
+
+  @@map("cities")
+}
+
+model parkingEntity {
+  id            Int       @id @default(autoincrement())
+  name          String
+  cityId        Int
+  location      String
+  numberOfSpots Int
+  hourlyRate    Float
+  city          cityEntity      @relation(fields: [cityId], references: [id])
+  spots         spotEntity[]
+  opened        Boolean
+
+  @@map("parkings")
+}
+
+model spotEntity {
+  id         Int      @id @default(autoincrement())
+  parkingId  Int
+  parking    parkingEntity @relation(fields: [parkingId], references: [id])
+  parks      parkEntity[]
+}
+
+model parkEntity {
+  id         Int      @id @default(autoincrement())
+  spotId     Int
+  spot       spotEntity     @relation(fields: [spotId], references: [id])
+  startedAt  DateTime?
+  endedAt    DateTime?
+  price      Float
+  paid       Boolean  @default(false)
+}

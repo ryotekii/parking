@@ -1,10 +1,8 @@
-import {Parking} from "../../models/Parking";
+import Parking from "../../models/Parking";
 import {Layout} from "../shared/Layout";
-import { parkings } from "../../data/staticDatabase";
 
 type ReadOneParkingViewProps = {
     parking: Parking;
-    name:String
 }
 
 const ReadOneCityView =
