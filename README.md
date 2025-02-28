@@ -1,5 +1,3 @@
-POIRSON Salomé
-BAEK Joeun
 
 To install dependencies:
 ```sh
